@@ -1,6 +1,7 @@
 package com.pm.springsecuritymonolithic.controller;
 
 import com.pm.springsecuritymonolithic.dto.AuthRequestDTO;
+import com.pm.springsecuritymonolithic.dto.AuthResponseDTO;
 import com.pm.springsecuritymonolithic.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,14 @@ public class AuthController {
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDTO> login(
+            @Valid @RequestBody AuthRequestDTO authRequestDto
+    ) {
+        String token = authService.login(authRequestDto);
+        return ResponseEntity.ok().body(new AuthResponseDTO(token));
     }
 
     @PostMapping("/register")
