@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public class AuthRequestDTO {
 
     @NotNull(message = "email is required")
-    @Email
+    @Email(message = "email must be of valid format")
     private String email;
 
     @NotNull(message = "password is required")
