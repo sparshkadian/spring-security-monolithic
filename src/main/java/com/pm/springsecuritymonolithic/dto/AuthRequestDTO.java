@@ -12,6 +12,9 @@ public class AuthRequestDTO {
     @NotNull(message = "password is required")
     private String password;
 
+    @NotNull(message = "role is required")
+    private String role;
+
     public String getEmail() {
         return email;
     }
@@ -26,5 +29,13 @@ public class AuthRequestDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
