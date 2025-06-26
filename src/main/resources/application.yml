@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-security-monolithic
+
+  config:
+    import: optional:File:./secrets.properties
+
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
