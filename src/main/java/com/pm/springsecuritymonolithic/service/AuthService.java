@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,11 +19,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String login(AuthRequestDTO authRequestDto) {
@@ -39,7 +42,7 @@ public class AuthService {
     public String register(AuthRequestDTO authRequest) {
         User user = new User();
         user.setEmail(authRequest.getEmail());
-        user.setPassword(authRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(authRequest.getPassword()));
         user.setRole(Role.valueOf(authRequest.getRole()));
 
         User newUser = userRepository.save(user);

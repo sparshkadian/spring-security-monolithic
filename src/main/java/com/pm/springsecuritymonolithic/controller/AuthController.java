@@ -3,9 +3,11 @@ package com.pm.springsecuritymonolithic.controller;
 import com.pm.springsecuritymonolithic.dto.AuthRequestDTO;
 import com.pm.springsecuritymonolithic.dto.AuthResponseDTO;
 import com.pm.springsecuritymonolithic.service.AuthService;
-import jakarta.validation.Valid;
+import com.pm.springsecuritymonolithic.validationGroups.OnLogin;
+import jakarta.validation.groups.Default;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(
-            @Valid @RequestBody AuthRequestDTO authRequestDto
+            @Validated(Default.class) @RequestBody AuthRequestDTO authRequestDto
     ) {
         String token = authService.login(authRequestDto);
         return ResponseEntity.ok().body(new AuthResponseDTO(token));
@@ -33,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @Valid @RequestBody AuthRequestDTO authRequest
+            @Validated({Default.class, OnLogin.class}) @RequestBody AuthRequestDTO authRequest
     ) {
         String token = authService.register(authRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", token));

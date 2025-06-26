@@ -2,7 +2,7 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-  "email": "sparsh@gmail.com",
+  "email": "harsh@gmail.com",
   "role": "ROLE_ADMIN",
   "password": "password"
 }
